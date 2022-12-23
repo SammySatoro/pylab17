@@ -1,0 +1,49 @@
+{% extends 'circus/base.html'%}
+
+{% block title %}
+{{title}}
+{%endblock%}
+
+{% block content %}
+    <script>
+        function test() {
+            document.getElementById("demo").innerHTML = "Hello JavaScript!";
+        }
+    </script>
+    <div style="background: antiquewhite;" class="d-flex flex-column flex-md-row align-items-center alert alert-warning mt-2">
+            <h1>{{title}}</h1>
+            <form id="form1" method="POST" style="display: contents">
+                {% csrf_token %}
+                {{ context.form.ID }}
+                {{ context.form.Name }}
+                {{ context.form.Location }}
+                <button style="height: 42px; width: 180px; border-color: cadetblue; background: cadetblue;" type="submit" class="btn btn-success">
+                    Add
+                </button>
+                <span>{{context.error}}</span>
+            </form>
+        </div>
+
+    <div style="display: grid; grid-template-rows: 1fr; grid-template-columns: 10% 40% 40% 10%; grid-template-areas: '. . . .';" class="alert alert-warning mt-2">
+    {% for field in fields %}
+        <div class="d-flex flex-column align-items-center alert alert-warning mt-2">
+            <h3 style="padding-top: 20px;">{{field}}</h3>
+        </div>
+    {% endfor %}
+        <div class="d-flex flex-column align-items-center alert alert-warning mt-2">
+            <button onclick="window.location.href='{% url 'arena_delete_all' %}';" style="height: 64px; width: 64px; border:none; background: url(https://www.svgrepo.com/show/421965/app-bin-delete.svg);" type="submit" class="btn btn-success"></button>
+        </div>
+    </div>
+    <div style="display: grid; grid-template-rows: 1fr; grid-template-columns: 90% 10%;  grid-template-areas: '. .'; ">
+        {% for el in data %}
+        <button id={{el.id}} form="form1" type="submit" style="color: #000 !important; text-decoration: none; background: navajowhite; display: grid; grid-template-rows: 1fr; grid-template-columns: 10% 45% 45%;  grid-template-areas: '. . .'; justify-items: center;" class="btn btn-success alert alert-warning mt-2 text-dark text-decoration-none" >
+                <h3>{{el.id}}</h3>
+                <h3>{{el.Name}}</h3>
+                <h3>{{el.Location}}</h3>
+            </button>
+
+        <a style="text-align: center; margin-block: auto; padding: 0 0 10px 0;" href="arena_delete/{{el.id}}"><img src="https://www.svgrepo.com/show/405158/cross-mark.svg"></a>
+    {% endfor %}
+    </div>
+
+{%endblock%}
